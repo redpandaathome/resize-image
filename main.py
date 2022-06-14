@@ -21,11 +21,20 @@ newNames = makeShuffledNames()
 print(newNames)
 
 def changeImgSize(oldPath, newPath):
-   basewidth = 464
+   # Width base
+   # basewidth = 464
+   # img = Image.open(oldPath)
+   # wpercent = (basewidth / float(img.size[0]))
+   # hsize = int((float(img.size[1]) * float(wpercent)))
+   # img = img.resize((basewidth, hsize), Image.ANTIALIAS)
+   
+   # Height base
+   baseheight=550
    img = Image.open(oldPath)
-   wpercent = (basewidth / float(img.size[0]))
-   hsize = int((float(img.size[1]) * float(wpercent)))
-   img = img.resize((basewidth, hsize), Image.ANTIALIAS)
+   hpercent = (baseheight / float(img.size[1]))
+   wsize = int((float(img.size[0]) * float(hpercent)))
+   img = img.resize((wsize, baseheight), Image.ANTIALIAS)
+
    img.save(newPath, quality=90)
 
 
@@ -33,11 +42,15 @@ for i, filename in enumerate(os.listdir(directory)):
    f=os.path.join(directory, filename)
    if os.path.isfile(f):
       oldPath = f
+      extension = os.path.splitext(filename)[1]
+      if extension=='.gif':
+         continue
+      
       # A.JUST RESIZING
-      # newPath = os.path.join(newDirectory, filename)
+      newPath = os.path.join(newDirectory, filename)
 
       # B.RESIZING + FILE ORDER SHUFFLE
-      extension = os.path.splitext(filename)[1]      
-      newPath = os.path.join(newDirectory, str(newNames[i])+extension)
+      # newPath = os.path.join(newDirectory, str(newNames[i])+extension)
+
       changeImgSize(oldPath, newPath)
 
